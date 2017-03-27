@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="cbcs:contentModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <!-- Optional meta-data about the model -->
+    <description>Document Model for Repo Extension CBCS</description>
+    <author>EARQ</author>
+    <version>1.0</version>
+
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <!-- Import Alfresco System Model Definitions -->
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+        <!-- Import Alfresco Data List Model Definitions -->
+        <import uri="http://www.alfresco.org/model/datalist/1.0"   prefix="dl" />        
+    </imports>
+
+    <!-- Custom namespace for your domain -->
+    <namespaces>
+        <namespace uri="http://www.cbcsadvogados.com/model/content/1.0" prefix="cbcs"/>
+    </namespaces>
+
+    <!-- ===============================================================================================================
+        Constraints, Types, and Aspects go here...
+        -->
+
+	<constraints>
+	
+		<constraint name="cbcs:arealist" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>				
+					<value>CIV</value>
+					<value>EMP_CONT</value>
+					<value>EMP_CONS</value>
+					<value>TRAB</value>
+				</list>
+			</parameter>
+		</constraint>	
+		
+		<constraint name="cbcs:yesnolist" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>				
+					<value>SIM</value>
+					<value>NAO</value>
+				</list>
+			</parameter>
+		</constraint>		
+		
+		<constraint name="cbcs:statuslist" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>ANDAMENTO</value>
+					<value>ENCERRADO</value>
+				</list>
+			</parameter>
+		</constraint>		
+				
+		<constraint name="cbcs:categoriaacaolist" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>				
+					<value>DIRETA</value>
+					<value>TERCEIRA ATIVA</value>
+					<value>TERCEIRA INATIVA</value>
+				</list>
+			</parameter>
+		</constraint>
+						
+	</constraints>
+
+	<types>
+
+		<type name="cbcs:processo">
+			<title>Processo</title>
+			<parent>cm:folder</parent>
+			<properties>	
+				<property name="cbcs:area">
+					<type>d:text</type>
+					<constraints>
+						<constraint ref="cbcs:arealist" />
+					</constraints>
+				</property>			
+
+				<property name="cbcs:parte">
+					<type>d:text</type>		
+				</property>
+				
+				<property name="cbcs:pasta">
+					<type>d:text</type>
+				</property>
+							
+				<property name="cbcs:juizinicial">
+					<type>d:text</type>
+				</property>						
+						
+				<property name="cbcs:juizsentenca">
+					<type>d:text</type>
+				</property>							
+						
+				<property name="cbcs:digital">
+					<type>d:text</type>		
+					<constraints>
+						<constraint ref="cbcs:yesnolist" />
+					</constraints>							
+				</property>
+				
+				<property name="cbcs:estrategico">
+					<type>d:text</type>
+					<constraints>
+						<constraint ref="cbcs:yesnolist" />
+					</constraints>					
+				</property>
+
+				<property name="cbcs:status">
+					<type>d:text</type>
+					<constraints>
+						<constraint ref="cbcs:statuslist" />
+					</constraints>
+				</property>		
+				
+				<property name="cbcs:categoriaacao">
+					<type>d:text</type>		
+					<constraints>
+						<constraint ref="cbcs:categoriaacaolist" />
+					</constraints>							
+				</property>							
+
+			</properties>
+			
+			<associations>
+				<association name="cbcs:terceiras">
+					<title>Terceiras</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>cbcs:terceira</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+
+				<association name="cbcs:advogados">
+					<title>Advogados</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>cbcs:advogado</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>	
+			</associations>			
+							
+			<mandatory-aspects>
+				<aspect>cm:generalclassifiable</aspect>
+			</mandatory-aspects>
+		</type>		
+
+	
+		<type name="cbcs:advogado">
+		   <title>Advogado</title>
+		   <parent>cm:content</parent>	     
+		</type>
+		
+		<type name="cbcs:terceira">
+		   <title>Terceira</title>
+		   <parent>cm:content</parent>     
+		</type>
+		
+	</types>
+
+</model>
